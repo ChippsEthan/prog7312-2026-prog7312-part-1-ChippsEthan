@@ -23,3 +23,4 @@ public static class TelemetryStore
                 Timestamp = DateTime.UtcNow
             });
         }}}
+//}

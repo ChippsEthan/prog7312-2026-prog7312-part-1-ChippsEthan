@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using SmartX.API.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.ConfigureHttpJsonOptions(options =>
 {
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -29,13 +28,11 @@ var telemetryLog = new List<object>();
 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 Directory.CreateDirectory(uploadsPath);
 
-
 app.MapPost("/api/sensors", (Sensor sensor) =>
 {
     sensors[sensor.Id] = sensor;
     return Results.Ok(sensor);
 });
-
 
 app.MapGet("/api/sensors", () => Results.Ok(sensors.Values));
 
@@ -61,7 +58,6 @@ app.MapPost("/api/telemetry/bool", (TelemetryPacket<bool> packet) =>
 
 
 app.MapGet("/api/telemetry", () => Results.Ok(telemetryLog));
-
 
 app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile file) =>
 {

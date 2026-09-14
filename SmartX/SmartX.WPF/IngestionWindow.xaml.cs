@@ -105,18 +105,18 @@ public partial class IngestionWindow : Window
         switch (category)
         {
             case "Environmental":
-                if (value <= 22) return (true, "temperature too low");
-                if (value >= 34) return (true, "temperature too high");
+                if (value <= 22) return (true, "The temp is too low");
+                if (value >= 34) return (true, "yhe temp is too high");
                 return (false, "");
 
             case "Power":
-                if (value <= 300) return (true, "power draw too low");
-                if (value >= 1800) return (true, "power draw too high");
+                if (value <= 300) return (true, "The power is too low");
+                if (value >= 1800) return (true, "The power is too high");
                 return (false, "");
 
             case "Actuator":
-                if (value == 1) return (true, "actuator in edge state 1");
-                if (value == 3) return (true, "actuator in edge state 3");
+                if (value == 1) return (true, "actuator is in 1");
+                if (value == 3) return (true, "actuator is in state 3");
                 return (false, "");
 
             default:
@@ -167,7 +167,7 @@ public partial class IngestionWindow : Window
         LocationBox.Text = "";
         CategoryBox.SelectedIndex = -1;
         _pendingFilePath = null;
-        ChosenFileText.Text = "No file selected";
+        ChosenFileText.Text = "you never selected a file";
         CreatePanel.Visibility = Visibility.Collapsed;
     }
 
@@ -204,21 +204,21 @@ public partial class IngestionWindow : Window
 
         Sensors.Add(newSensor);
         StartSensorTimer(newSensor);
-        StatusText.Text = "Sensor created.";
+        StatusText.Text = "A sensor has been created.";
 
         if (!string.IsNullOrEmpty(_pendingFilePath))
         {
             var uploadResponse = await _api.UploadFileAsync(newSensorId, _pendingFilePath);
             StatusText.Text = uploadResponse.IsSuccessStatusCode
-                ? "Sensor created and file uploaded."
-                : "Sensor created, but file upload failed.";
+                ? "A sensor was created and your file was uploaded aswell."
+                : "your sensor was created but the file did not upload.";
         }
 
         MacBox.Text = "";
         LocationBox.Text = "";
         CategoryBox.SelectedIndex = -1;
         _pendingFilePath = null;
-        ChosenFileText.Text = "No file selected";
+        ChosenFileText.Text = "You didnt chose a file";
         CreatePanel.Visibility = Visibility.Collapsed;
     }
 
