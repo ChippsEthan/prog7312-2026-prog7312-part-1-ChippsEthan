@@ -124,7 +124,7 @@ namespace SmartX.WPF {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/SmartX.WPF;V1.0.0.0;component/ingestionwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/SmartX.WPF;component/ingestionwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\IngestionWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

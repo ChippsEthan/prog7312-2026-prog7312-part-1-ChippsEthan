@@ -1,5 +1,4 @@
 ﻿namespace SmartX.API.Models;
-
 public class TelemetryPacket<T>
 {
     public string DeviceId { get; set; } = string.Empty;

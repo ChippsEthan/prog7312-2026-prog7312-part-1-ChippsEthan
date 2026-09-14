@@ -2,11 +2,10 @@
 
 public enum SensorCategory
 {
-    Environmental,
-    Power,
-    Actuator
+Environmental,
+Power,
+Actuator
 }
-
 public class Sensor
 {
     public string Id { get; set; } = Guid.NewGuid().ToString();

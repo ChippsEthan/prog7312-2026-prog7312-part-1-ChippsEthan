@@ -1,13 +1,10 @@
 ﻿namespace SmartX.API.Models;
-
 public static class TelemetryStore
 {
-    
     public static double[][] RawBatches = new double[10][];
     private static int _batchIndex = 0;
 
     public static List<TelemetryPacket<double>> History = new();
-
     public static void AddBatch(double[] batch, string deviceId)
     {
         if (_batchIndex >= RawBatches.Length)
@@ -25,6 +22,4 @@ public static class TelemetryStore
                 SensorType = "float",
                 Timestamp = DateTime.UtcNow
             });
-        }
-    }
-}
+        }}}

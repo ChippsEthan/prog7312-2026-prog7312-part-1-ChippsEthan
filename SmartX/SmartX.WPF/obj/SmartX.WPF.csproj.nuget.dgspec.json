@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj": {}
+    "C:\\Users\\emeris\\Desktop\\prog7312-2026-prog7312-part-1-ChippsEthan\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj": {}
   },
   "projects": {
-    "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj": {
+    "C:\\Users\\emeris\\Desktop\\prog7312-2026-prog7312-part-1-ChippsEthan\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj",
+        "projectUniqueName": "C:\\Users\\emeris\\Desktop\\prog7312-2026-prog7312-part-1-ChippsEthan\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj",
         "projectName": "SmartX.WPF",
-        "projectPath": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj",
+        "projectPath": "C:\\Users\\emeris\\Desktop\\prog7312-2026-prog7312-part-1-ChippsEthan\\SmartX\\SmartX.WPF\\SmartX.WPF.csproj",
         "packagesPath": "C:\\Users\\emeris\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\obj\\",
+        "outputPath": "C:\\Users\\emeris\\Desktop\\prog7312-2026-prog7312-part-1-ChippsEthan\\SmartX\\SmartX.WPF\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
