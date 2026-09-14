@@ -1,0 +1,29 @@
+﻿<Window x:Class="SmartX.WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Smart-X IoT Gateway" Height="500" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Smart-X IoT Ecosystem"
+                   FontSize="24" FontWeight="Bold"
+                   Margin="20" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Content="1. Sensor Data Ingestion and Telemetry"
+                    Width="350" Height="50" Margin="10"
+                    Click="OpenIngestion_Click"/>
+
+            <Button Content="2. Real-Time Command Stream and History (Disabled)"
+                    Width="350" Height="50" Margin="10"
+                    IsEnabled="False"/>
+
+            <Button Content="3. Network Topology and Mesh Routing (Disabled)"
+                    Width="350" Height="50" Margin="10"
+                    IsEnabled="False"/>
+        </StackPanel>
+    </Grid>
+</Window>

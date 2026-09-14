@@ -1,0 +1,243 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\emeris\\source\\repos\\SmartX\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\ingestionwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\ingestionwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\ingestionwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\ingestionwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\sensordisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\sensordisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\services\\apiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\models\\deploymentnode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\models\\deploymentnode.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\models\\sensor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\models\\telementrystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\models\\telementrystore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\models\\telementrypacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\models\\telementrypacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\models\\sensorreading.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\models\\sensorreading.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{056AA708-8108-A3E0-3241-5955835EFEBD}|SmartX.WPF\\SmartX.WPF.csproj|solutionrelative:smartx.wpf\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|c:\\users\\emeris\\source\\repos\\smartx\\smartx.api\\smartx.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{2FC033E8-F118-24ED-0DDC-C7AEE228B8D8}|SmartX.API\\SmartX.API.csproj|solutionrelative:smartx.api\\smartx.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IngestionWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\IngestionWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SmartX.WPF\\IngestionWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\IngestionWindow.xaml.cs",
+              "RelativeToolTip": "SmartX.WPF\\IngestionWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T15:33:30.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SensorDisplay.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SensorDisplay.cs",
+              "RelativeDocumentMoniker": "SmartX.WPF\\SensorDisplay.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\SensorDisplay.cs",
+              "RelativeToolTip": "SmartX.WPF\\SensorDisplay.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T18:33:02.814Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiService.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\Services\\ApiService.cs",
+              "RelativeDocumentMoniker": "SmartX.WPF\\Services\\ApiService.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\Services\\ApiService.cs",
+              "RelativeToolTip": "SmartX.WPF\\Services\\ApiService.cs",
+              "ViewState": "AgIAADcAAAAAAAAAAAAAAEEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T14:05:35.65Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IngestionWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\IngestionWindow.xaml",
+              "RelativeDocumentMoniker": "SmartX.WPF\\IngestionWindow.xaml",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\IngestionWindow.xaml",
+              "RelativeToolTip": "SmartX.WPF\\IngestionWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-13T15:32:22.245Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Program.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Program.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Program.cs",
+              "RelativeToolTip": "SmartX.API\\Program.cs",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAAC4AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T13:04:49.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "DeploymentNode.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\DeploymentNode.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Models\\DeploymentNode.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\DeploymentNode.cs",
+              "RelativeToolTip": "SmartX.API\\Models\\DeploymentNode.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T13:01:45.001Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Sensor.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\Sensor.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Models\\Sensor.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\Sensor.cs",
+              "RelativeToolTip": "SmartX.API\\Models\\Sensor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T13:01:04.041Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TelementryStore.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\TelementryStore.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Models\\TelementryStore.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\TelementryStore.cs",
+              "RelativeToolTip": "SmartX.API\\Models\\TelementryStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T13:03:10.124Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TelementryPacket.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\TelementryPacket.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Models\\TelementryPacket.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\TelementryPacket.cs",
+              "RelativeToolTip": "SmartX.API\\Models\\TelementryPacket.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T12:54:34.613Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SensorReading.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\SensorReading.cs",
+              "RelativeDocumentMoniker": "SmartX.API\\Models\\SensorReading.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Models\\SensorReading.cs",
+              "RelativeToolTip": "SmartX.API\\Models\\SensorReading.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T12:59:54.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "SmartX.API\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\Properties\\launchSettings.json",
+              "RelativeToolTip": "SmartX.API\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-09-13T12:47:36.718Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "SmartX.WPF\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\MainWindow.xaml.cs",
+              "RelativeToolTip": "SmartX.WPF\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-13T12:44:26.594Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "SmartX.WPF\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.WPF\\MainWindow.xaml",
+              "RelativeToolTip": "SmartX.WPF\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-09-13T12:44:30.481Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "SmartX.API.csproj",
+              "DocumentMoniker": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\SmartX.API.csproj",
+              "RelativeDocumentMoniker": "SmartX.API\\SmartX.API.csproj",
+              "ToolTip": "C:\\Users\\emeris\\source\\repos\\SmartX\\SmartX.API\\SmartX.API.csproj",
+              "RelativeToolTip": "SmartX.API\\SmartX.API.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-13T12:47:32.541Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
