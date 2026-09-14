@@ -2,7 +2,6 @@
 using System.Windows.Media;
 
 namespace SmartX.WPF;
-
 public class SensorDisplay : INotifyPropertyChanged
 {
     public string Id { get; set; } = "";
@@ -20,7 +19,6 @@ public class SensorDisplay : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentValue)));
         }
     }
-
     private Brush _pulseColor = Brushes.Gray;
     public Brush PulseColor
     {
@@ -31,7 +29,6 @@ public class SensorDisplay : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(PulseColor)));
         }
     }
-
     private string _lastUpdated = "not updated";
     public string LastUpdated
     {
@@ -42,6 +39,5 @@ public class SensorDisplay : INotifyPropertyChanged
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LastUpdated)));
         }
     }
-
     public event PropertyChangedEventHandler? PropertyChanged;
 }

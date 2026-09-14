@@ -17,11 +17,11 @@
                     Width="350" Height="50" Margin="10"
                     Click="OpenIngestion_Click"/>
 
-            <Button Content="2. Real-Time Command Stream and History (Disabled)"
+            <Button Content="2. Part 2 (Disabled)"
                     Width="350" Height="50" Margin="10"
                     IsEnabled="False"/>
 
-            <Button Content="3. Network Topology and Mesh Routing (Disabled)"
+            <Button Content="3. Part 2 (Disabled)"
                     Width="350" Height="50" Margin="10"
                     IsEnabled="False"/>
         </StackPanel>

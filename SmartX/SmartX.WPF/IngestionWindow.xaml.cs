@@ -235,5 +235,4 @@ public partial class IngestionWindow : Window
         public static Reading operator +(Reading a, Reading b) =>
             new() { Name = $"{a.Name}+{b.Name}", Value = a.Value + b.Value };
         public override string ToString() => $"{Name}: {Value}";
-    }
-}
+    }}
