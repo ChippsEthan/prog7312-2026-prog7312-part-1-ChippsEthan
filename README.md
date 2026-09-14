@@ -14,6 +14,6 @@ The data is stored in memory
 
 ###Links
 
-Github:
+Github: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan.git
 
 Youtube: https://youtu.be/LjB1pL9jP1M
