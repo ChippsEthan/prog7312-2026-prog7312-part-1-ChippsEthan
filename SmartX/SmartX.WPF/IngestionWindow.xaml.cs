@@ -6,7 +6,6 @@ using Microsoft.Win32;
 using SmartX.WPF.Services;
 
 namespace SmartX.WPF;
-
 public partial class IngestionWindow : Window
 {
     private readonly ApiService _api = new();
@@ -15,7 +14,6 @@ public partial class IngestionWindow : Window
     private readonly List<DispatcherTimer> _sensorTimers = new();
 
     public ObservableCollection<SensorDisplay> Sensors { get; set; } = new();
-
     public IngestionWindow()
     {
         InitializeComponent();
@@ -31,8 +29,6 @@ public partial class IngestionWindow : Window
         StartSensorTimer(sensor1);
         StartSensorTimer(sensor2);
     }
-
-    
     private void StartSensorTimer(SensorDisplay sensor)
     {
         var initialDelay = _rand.Next(0, 3000); 
@@ -53,7 +49,6 @@ public partial class IngestionWindow : Window
         startTimer.Start();
         _sensorTimers.Add(startTimer);
     }
-
     private async void SendTelemetryFor(SensorDisplay sensor)
     {
         double numericValue;
@@ -84,13 +79,11 @@ public partial class IngestionWindow : Window
                 valueText = "n/a";
                 break;
         }
-
         var timestamp = DateTime.Now.ToString("HH:mm:ss");
         sensor.CurrentValue = valueText;
         sensor.LastUpdated = timestamp;
         Pulse(sensor);
 
-        
         var (isAlert, reason) = CheckThreshold(sensor.Category, numericValue);
         if (isAlert)
         {
@@ -98,8 +91,6 @@ public partial class IngestionWindow : Window
                 $"[ALERT] {sensor.MacAddress} ({sensor.Location}) {reason} \u2014 value: {valueText} at {timestamp}");
         }
     }
-
-    
     private (bool isAlert, string reason) CheckThreshold(string category, double value)
     {
         switch (category)
@@ -123,7 +114,6 @@ public partial class IngestionWindow : Window
                 return (false, "");
         }
     }
-
     private void Pulse(SensorDisplay sensor)
     {
         sensor.PulseColor = Brushes.LimeGreen;
@@ -135,7 +125,6 @@ public partial class IngestionWindow : Window
         };
         timer.Start();
     }
-
     private void Back_Click(object sender, RoutedEventArgs e)
     {
         foreach (var t in _sensorTimers) t.Stop();
@@ -143,14 +132,12 @@ public partial class IngestionWindow : Window
         mainWindow.Show();
         this.Close();
     }
-
     private void ToggleCreate_Click(object sender, RoutedEventArgs e)
     {
         CreatePanel.Visibility = CreatePanel.Visibility == Visibility.Collapsed
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
-
     private void ChooseFile_Click(object sender, RoutedEventArgs e)
     {
         var dialog = new OpenFileDialog();
@@ -160,7 +147,6 @@ public partial class IngestionWindow : Window
             ChosenFileText.Text = System.IO.Path.GetFileName(dialog.FileName);
         }
     }
-
     private void CancelCreate_Click(object sender, RoutedEventArgs e)
     {
         MacBox.Text = "";
@@ -170,7 +156,6 @@ public partial class IngestionWindow : Window
         ChosenFileText.Text = "you never selected a file";
         CreatePanel.Visibility = Visibility.Collapsed;
     }
-
     private async void SaveSensor_Click(object sender, RoutedEventArgs e)
     {
         var category = (CategoryBox.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "Environmental";
@@ -221,14 +206,12 @@ public partial class IngestionWindow : Window
         ChosenFileText.Text = "You didnt chose a file";
         CreatePanel.Visibility = Visibility.Collapsed;
     }
-
     private void TestOverload_Click(object sender, RoutedEventArgs e)
     {
         var m1 = new Reading { Name = "MeterA", Value = 45.5 };
         var m2 = new Reading { Name = "MeterB", Value = 30.2 };
         StatusText.Text = $"[OVERLOAD] {m1 + m2}";
     }
-
     private async void ValidateTree_Click(object sender, RoutedEventArgs e)
     {
         var tree = new
@@ -245,7 +228,6 @@ public partial class IngestionWindow : Window
         var body = await response.Content.ReadAsStringAsync();
         StatusText.Text = $"[RECURSION] {body}";
     }
-
     private class Reading
     {
         public string Name { get; set; } = "";

@@ -32,7 +32,7 @@ public class SensorDisplay : INotifyPropertyChanged
         }
     }
 
-    private string _lastUpdated = "Never";
+    private string _lastUpdated = "not updated";
     public string LastUpdated
     {
         get => _lastUpdated;
