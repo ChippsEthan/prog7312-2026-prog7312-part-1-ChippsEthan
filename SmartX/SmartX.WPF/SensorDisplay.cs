@@ -41,3 +41,4 @@ public class SensorDisplay : INotifyPropertyChanged
     }
     public event PropertyChangedEventHandler? PropertyChanged;
 }
+

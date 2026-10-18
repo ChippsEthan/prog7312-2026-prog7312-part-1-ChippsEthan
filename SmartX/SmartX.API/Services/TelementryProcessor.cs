@@ -11,6 +11,7 @@ public class TelemetryProcessor : BackgroundService
     private readonly DeviceRegistry _registry;
     private readonly HistoryStore _history;
     private readonly AlertTracker _alerts;
+    private readonly PredictionEngine _prediction;
     private readonly ILogger<TelemetryProcessor> _logger;
 
     public TelemetryProcessor(
@@ -18,12 +19,14 @@ public class TelemetryProcessor : BackgroundService
         DeviceRegistry registry,
         HistoryStore history,
         AlertTracker alerts,
+        PredictionEngine prediction,
         ILogger<TelemetryProcessor> logger)
     {
         _queues = queues;
         _registry = registry;
         _history = history;
         _alerts = alerts;
+        _prediction = prediction;
         _logger = logger;
     }
 
@@ -44,7 +47,7 @@ public class TelemetryProcessor : BackgroundService
                 }
                 else
                 {
-                    await Task.Delay(20, stoppingToken);   
+                    await Task.Delay(20, stoppingToken);
                 }
 
                 if (DateTime.UtcNow - lastWatchdog > TimeSpan.FromSeconds(1))
@@ -81,20 +84,26 @@ public class TelemetryProcessor : BackgroundService
         });
         if (updated is null) return;
 
-        
         _history.Add(new TelemetryReading(updated.MacAddress, packet.Timestamp, packet.Value, packet.SensorType));
 
-        
+
         TelemetryStore.AddBatch(new[] { packet.Value }, updated.MacAddress, packet.SensorType);
 
-        
+
         if (wasOffline)
             _alerts.Clear(packet.Mac, AlertTypes.Disconnected);
 
         if (evaluation.Level == AlertLevel.None)
+        {
             _alerts.Clear(packet.Mac, AlertTypes.OutOfRange);
+        }
         else
-            _alerts.Raise(packet.Mac, updated.Name, AlertTypes.OutOfRange, evaluation.Level, evaluation.Reason);
+        {
+            bool isNew = _alerts.Raise(packet.Mac, updated.Name, AlertTypes.OutOfRange, evaluation.Level, evaluation.Reason);
+
+            if (isNew)
+                _prediction.RecordEvent(new PatternEvent(PatternKind.Alert, updated.MacAddress, AlertTypes.OutOfRange));
+        }
 
         _queues.RecordProcessed(packet, updated.Name, lane);
     }
@@ -109,9 +118,11 @@ public class TelemetryProcessor : BackgroundService
             {
                 _registry.Update(device.MacAddress, d => d.IsOnline = false);
 
-                
-                _alerts.Raise(device.MacAddress, device.Name, AlertTypes.Disconnected, AlertLevel.Critical,
+                bool isNew = _alerts.Raise(device.MacAddress, device.Name, AlertTypes.Disconnected, AlertLevel.Critical,
                     $"No telemetry for {OfflineAfter.TotalSeconds:0}s, node disconnected");
+
+                if (isNew)
+                    _prediction.RecordEvent(new PatternEvent(PatternKind.Alert, device.MacAddress, AlertTypes.Disconnected));
             }
         }
     }
