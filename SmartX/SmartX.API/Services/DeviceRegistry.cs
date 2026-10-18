@@ -136,6 +136,6 @@ public class DeviceRegistry
         Register(new Sensor { MacAddress = "24:6F:28:B2:00:01", Name = "Smart Meter 1", Location = "Grid-Zone3-NodeA", Category = SensorCategory.Power });
         Register(new Sensor { MacAddress = "24:6F:28:B2:00:02", Name = "Smart Meter 2", Location = "Grid-Zone3-NodeB", Category = SensorCategory.Power });
         Register(new Sensor { MacAddress = "24:6F:28:C3:00:01", Name = "Pump A", Location = "Hydroponics-Zone1-PumpA", Category = SensorCategory.Actuator });
-        Register(new Sensor { MacAddress = "24:6F:28:C3:00:02", Name = "Smart Relay 1", Location = "Grid-Zone3-Relay1", Category = SensorCategory.Actuator });
+        Register(new Sensor { MacAddress = "24:6F:28:C3:00:02", Name = "Smart Relay 1", Location = "Grid-Zone3-Relay1", Category = SensorCategory.Actuator, IsOn = true });
     }
 }

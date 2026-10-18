@@ -22,6 +22,7 @@ builder.Services.AddSingleton<AlertTracker>();
 builder.Services.AddSingleton<TelemetryQueues>();
 builder.Services.AddSingleton<TelemetryIntake>();
 builder.Services.AddSingleton<CommandService>();
+builder.Services.AddSingleton<PredictionEngine>();
 builder.Services.AddHostedService<TelemetryProcessor>();
 
 var app = builder.Build();
@@ -31,6 +32,7 @@ app.UseSwaggerUI();
 app.UseCors("AllowWpf");
 
 app.Services.GetRequiredService<DeviceRegistry>().SeedDefaults();
+app.Services.GetRequiredService<PredictionEngine>().SeedHistoricalPatterns();
 
 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 Directory.CreateDirectory(uploadsPath);
@@ -108,10 +110,13 @@ app.MapPost("/api/queues/demo-burst", (string mac, int? count, DeviceRegistry re
     return Results.Ok(new { standardQueued = n, criticalQueued = 1 });
 });
 
-app.MapPost("/api/commands", (CommandRequest request, CommandService commands) =>
+app.MapPost("/api/commands", (CommandRequest request, CommandService commands, PredictionEngine prediction) =>
 {
     var result = commands.Execute(request.Mac, request.Action);
-    return result.Success ? Results.Ok(result.Command) : Results.BadRequest(result.Error);
+    if (!result.Success) return Results.BadRequest(result.Error);
+
+    prediction.RecordCommand(request.Mac, request.Action);   // the engine learns from every command
+    return Results.Ok(result.Command);
 });
 
 app.MapPost("/api/commands/undo", (CommandService commands) =>
@@ -122,6 +127,38 @@ app.MapPost("/api/commands/undo", (CommandService commands) =>
 
 app.MapGet("/api/commands", (CommandService commands) =>
     Results.Ok(new { undoDepth = commands.UndoDepth, nextUndo = commands.PeekUndo(), history = commands.GetLog() }));
+
+app.MapGet("/api/insights", (PredictionEngine prediction) => Results.Ok(prediction.GetInsights()));
+
+app.MapPost("/api/insights/search", (string query, PredictionEngine prediction) =>
+{
+    var device = prediction.RecordSearch(query);
+    return Results.Ok(new { recorded = device is not null, device });
+});
+
+app.MapPost("/api/insights/demo-trend", async (string mac, DeviceRegistry registry, TelemetryIntake intake) =>
+{
+    var device = registry.GetByMac(mac);
+    if (device is null) return Results.NotFound($"No device with MAC {mac}");
+
+    var (start, step) = device.Metric switch
+    {
+        "Moisture" => (75.0, -7.0),
+        "Temperature" => (30.0, -2.0),
+        "Power" => (1000.0, 250.0),
+        _ => (0.0, 0.0)
+    };
+
+    if (step == 0) return Results.BadRequest("Pick a Moisture, Temperature or Power device.");
+
+    for (int i = 0; i < 7; i++)
+    {
+        intake.Submit(device.MacAddress, start + step * i, "float");
+        await Task.Delay(250);
+    }
+
+    return Results.Ok(new { sent = 7, next = "Now call GET /api/insights" });
+});
 
 app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile file, DeviceRegistry registry) =>
 {
