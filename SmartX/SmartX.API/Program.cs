@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using SmartX.API.Models;
+using SmartX.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureHttpJsonOptions(options =>
@@ -15,26 +16,43 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
+
+builder.Services.AddSingleton<DeviceRegistry>();
+builder.Services.AddSingleton<HistoryStore>();
+
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseCors("AllowWpf");
 
+app.Services.GetRequiredService<DeviceRegistry>().SeedDefaults();
 
-var sensors = new Dictionary<string, Sensor>();
 var telemetryLog = new List<object>();
 
 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 Directory.CreateDirectory(uploadsPath);
 
-app.MapPost("/api/sensors", (Sensor sensor) =>
+
+app.MapPost("/api/sensors", (Sensor sensor, DeviceRegistry registry) =>
 {
-    sensors[sensor.Id] = sensor;
-    return Results.Ok(sensor);
+    var result = registry.Register(sensor);
+    if (result.Success) return Results.Ok(result.Sensor);
+    return result.IsConflict ? Results.Conflict(result.Error) : Results.BadRequest(result.Error);
 });
 
-app.MapGet("/api/sensors", () => Results.Ok(sensors.Values));
+app.MapGet("/api/sensors", (DeviceRegistry registry) => Results.Ok(registry.GetAll()));
+
+app.MapGet("/api/devices/{mac}", (string mac, DeviceRegistry registry) =>
+    registry.GetByMac(mac) is { } device
+        ? Results.Ok(device)
+        : Results.NotFound($"No device with MAC {mac}"));
+
+app.MapGet("/api/devices/{mac}/history", (string mac, int? count, DeviceRegistry registry, HistoryStore history) =>
+{
+    if (!registry.Exists(mac)) return Results.NotFound($"No device with MAC {mac}");
+    return Results.Ok(history.GetLatest(mac, count ?? 100));
+});
 
 
 app.MapPost("/api/telemetry/float", (TelemetryPacket<float> packet) =>
@@ -56,21 +74,22 @@ app.MapPost("/api/telemetry/bool", (TelemetryPacket<bool> packet) =>
     return Results.Ok(packet);
 });
 
-
 app.MapGet("/api/telemetry", () => Results.Ok(telemetryLog));
 
-app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile file) =>
+
+app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile file, DeviceRegistry registry) =>
 {
-    if (!sensors.ContainsKey(sensorId))
+    if (registry.GetById(sensorId) is null)
         return Results.NotFound("Sensor not found");
 
-    var filePath = Path.Combine(uploadsPath, $"{sensorId}_{file.FileName}");
-    using (var stream = File.Create(filePath))
+    var safeName = Path.GetFileName(file.FileName);
+    var filePath = Path.Combine(uploadsPath, $"{sensorId}_{safeName}");
+    await using (var stream = File.Create(filePath))
     {
         await file.CopyToAsync(stream);
     }
 
-    sensors[sensorId].AttachedFiles.Add(filePath);
+    registry.AddAttachment(sensorId, filePath);
     return Results.Ok(new { path = filePath });
 }).DisableAntiforgery();
 
