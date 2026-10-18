@@ -19,6 +19,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<DeviceRegistry>();
 builder.Services.AddSingleton<HistoryStore>();
+builder.Services.AddSingleton<AlertTracker>();
 
 var app = builder.Build();
 
@@ -92,6 +93,26 @@ app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile 
     registry.AddAttachment(sensorId, filePath);
     return Results.Ok(new { path = filePath });
 }).DisableAntiforgery();
+
+app.MapGet("/api/alerts", (AlertTracker alerts) => Results.Ok(alerts.GetActive()));
+app.MapPost("/api/alerts/test-duplicates", (string mac, DeviceRegistry registry, AlertTracker alerts) =>
+{
+    var device = registry.GetByMac(mac);
+    if (device is null) return Results.NotFound($"No device with MAC {mac}");
+
+    int newAlerts = 0, duplicates = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        if (alerts.Raise(device.MacAddress, device.Name, AlertTypes.Disconnected, AlertLevel.Critical, "Test disconnect"))
+            newAlerts++;
+        else
+            duplicates++;
+    }
+    return Results.Ok(new { attempts = 5, newAlerts, duplicatesBlocked = duplicates });
+});
+
+app.MapDelete("/api/alerts/{mac}", (string mac, AlertTracker alerts) =>
+    Results.Ok(new { cleared = alerts.ClearAll(mac) }));
 
 
 app.MapPost("/api/deployment/validate", (DeploymentNode root) =>
