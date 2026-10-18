@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="SmartX.WPF.Views.IngestionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28,24,28,24">
+            <TextBlock Text="Sensor Data Ingestion and Telemetry" FontSize="26" FontWeight="Bold" Foreground="{StaticResource InkBrush}"/>
+            <TextBlock Text="Pillar 1: register devices, attach files and watch live telemetry"
+                       Foreground="{StaticResource MutedBrush}" Margin="0,2,0,18"/>
+
+            
+            <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                <StackPanel>
+                    <DockPanel Margin="0,0,0,10">
+                        <Button x:Name="ToggleCreateButton" DockPanel.Dock="Right" Content="+ Register new sensor"
+                                Style="{StaticResource PrimaryButton}" Click="ToggleCreate_Click"/>
+                        <TextBlock Text="Registered sensors" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                    </DockPanel>
+
+                    <ListView x:Name="SensorListView" Height="250">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="140"/>
+                                <GridViewColumn Header="MAC Address" DisplayMemberBinding="{Binding MacAddress}" Width="135"/>
+                                <GridViewColumn Header="Location" DisplayMemberBinding="{Binding Location}" Width="170"/>
+                                <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" Width="95"/>
+                                <GridViewColumn Header="Current Value" DisplayMemberBinding="{Binding CurrentValue}" Width="90"/>
+                                <GridViewColumn Header="Status" Width="85">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding StatusText}" Foreground="{Binding StatusBrush}" FontWeight="SemiBold"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Updated" DisplayMemberBinding="{Binding LastUpdated}" Width="75"/>
+                                <GridViewColumn Header="Live" Width="45">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Ellipse Width="14" Height="14" Fill="{Binding PulseColor}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </StackPanel>
+            </Border>
+
+            
+            <Border x:Name="CreatePanel" Style="{StaticResource Card}" Margin="0,0,0,14" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="New sensor" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+
+                    <TextBlock Text="MAC address (e.g. AA:BB:CC:DD:EE:01)"/>
+                    <TextBox x:Name="MacBox" Margin="0,2,0,8" Padding="4"/>
+
+                    <TextBlock Text="Deployment location (Room / Zone / Node)"/>
+                    <TextBox x:Name="LocationBox" Margin="0,2,0,8" Padding="4"/>
+
+                    <TextBlock Text="Category"/>
+                    <ComboBox x:Name="CategoryBox" Margin="0,2,0,8" Padding="4">
+                        <ComboBoxItem Content="Environmental"/>
+                        <ComboBoxItem Content="Power"/>
+                        <ComboBoxItem Content="Actuator"/>
+                    </ComboBox>
+
+                    <TextBlock Text="Attach config / photo / log file (optional)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,2,0,10">
+                        <Button Content="Choose file" Style="{StaticResource GhostButton}" Click="ChooseFile_Click" Margin="0,0,10,0"/>
+                        <TextBlock x:Name="ChosenFileText" Text="No file selected" VerticalAlignment="Center" Foreground="{StaticResource MutedBrush}"/>
+                    </StackPanel>
+
+                    <TextBlock x:Name="FormError" Foreground="{StaticResource DangerBrush}" Visibility="Collapsed" Margin="0,0,0,8" TextWrapping="Wrap"/>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="Save sensor" Style="{StaticResource PrimaryButton}" Click="SaveSensor_Click" Margin="0,0,10,0"/>
+                        <Button Content="Cancel" Style="{StaticResource GhostButton}" Click="CancelCreate_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            
+            <Border Style="{StaticResource Card}" Margin="0,0,0,14">
+                <StackPanel>
+                    <TextBlock Text="Language feature demos" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <WrapPanel>
+                        <Button Content="Test operator overloading" Style="{StaticResource GhostButton}" Click="TestOverload_Click" Margin="0,0,10,6"/>
+                        <Button Content="Validate tree (valid)" Style="{StaticResource GhostButton}" Click="ValidateTree_Click" Margin="0,0,10,6"/>
+                        <Button Content="Validate tree (broken)" Style="{StaticResource GhostButton}" Click="ValidateBrokenTree_Click" Margin="0,0,10,6"/>
+                    </WrapPanel>
+                    <TextBlock x:Name="StatusText" Foreground="{StaticResource OkBrush}" TextWrapping="Wrap" Margin="0,6,0,0"/>
+                </StackPanel>
+            </Border>
+
+            
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <TextBlock Text="Alerts (value outside safe range / node disconnected)" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <ListBox x:Name="AlertsList" Height="170" Foreground="{StaticResource DangerBrush}"/>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

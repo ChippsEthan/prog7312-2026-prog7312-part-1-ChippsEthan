@@ -1,29 +1,99 @@
 ﻿<Window x:Class="SmartX.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Smart-X IoT Gateway" Height="500" Width="800">
+        Title="Smart-X IoT Gateway" Height="800" Width="1320" MinHeight="620" MinWidth="1050"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource PageBrush}">
+
+    <Window.Resources>
+        <Style x:Key="NavButton" TargetType="RadioButton">
+            <Setter Property="Foreground" Value="#CBD5E1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="12,3"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="Bd" Background="Transparent" CornerRadius="8" Padding="14,11">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#27344B"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#2563EB"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.4"/>
+                                <Setter Property="Cursor" Value="Arrow"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="270"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Smart-X IoT Ecosystem"
-                   FontSize="24" FontWeight="Bold"
-                   Margin="20" HorizontalAlignment="Center"/>
+        
+        <Border Grid.Column="0" Background="#111827">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="0,24,0,0">
+                    <TextBlock Text="Smart-X" FontSize="26" FontWeight="Bold" Foreground="White" Margin="24,0,24,0"/>
+                    <TextBlock Text="IoT Mesh Gateway" FontSize="12" Foreground="#94A3B8" Margin="24,0,24,22"/>
 
-        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="1. Sensor Data Ingestion and Telemetry"
-                    Width="350" Height="50" Margin="10"
-                    Click="OpenIngestion_Click"/>
+                    <RadioButton x:Name="NavHome" Style="{StaticResource NavButton}" GroupName="Nav"
+                                 Tag="Home" Click="Nav_Click" IsChecked="True">
+                        <TextBlock Text="Home" FontWeight="SemiBold"/>
+                    </RadioButton>
 
-            <Button Content="2. Part 2 (Disabled)"
-                    Width="350" Height="50" Margin="10"
-                    IsEnabled="False"/>
+                    <RadioButton x:Name="NavIngestion" Style="{StaticResource NavButton}" GroupName="Nav"
+                                 Tag="Ingestion" Click="Nav_Click">
+                        <StackPanel>
+                            <TextBlock Text="1. Sensor Data Ingestion and Telemetry" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                            <TextBlock Text="Active" FontSize="11" Foreground="#86EFAC" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
 
-            <Button Content="3. Part 2 (Disabled)"
-                    Width="350" Height="50" Margin="10"
-                    IsEnabled="False"/>
-        </StackPanel>
+                    <RadioButton x:Name="NavCommands" Style="{StaticResource NavButton}" GroupName="Nav"
+                                 Tag="Commands" Click="Nav_Click">
+                        <StackPanel>
+                            <TextBlock Text="2. Real-Time Command Stream and History" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                            <TextBlock Text="Active" FontSize="11" Foreground="#86EFAC" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+
+                    <RadioButton x:Name="NavTopology" Style="{StaticResource NavButton}" GroupName="Nav"
+                                 Tag="Topology" Click="Nav_Click" IsEnabled="False">
+                        <StackPanel>
+                            <TextBlock Text="3. Network Topology and Mesh Routing" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                            <TextBlock Text="Coming in the final PoE" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </RadioButton>
+                </StackPanel>
+
+                <StackPanel DockPanel.Dock="Bottom" Margin="20,0,20,20">
+                    <Button x:Name="SimToggle" Content="Pause device simulator" Style="{StaticResource GhostButton}"
+                            Click="SimToggle_Click" Margin="0,0,0,14"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="Gray" Margin="0,3,8,0" VerticalAlignment="Top"/>
+                        <TextBlock x:Name="StatusLabel" Text="Connecting to API..." Foreground="#CBD5E1"
+                                   FontSize="12" TextWrapping="Wrap" MaxWidth="200"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Grid/>
+            </DockPanel>
+        </Border>
+
+        
+        <ContentControl x:Name="PageHost" Grid.Column="1"/>
     </Grid>
 </Window>

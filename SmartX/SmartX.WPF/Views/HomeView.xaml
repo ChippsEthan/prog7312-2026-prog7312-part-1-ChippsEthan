@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="SmartX.WPF.Views.HomeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="36,32,36,32">
+            <TextBlock Text="Smart-X IoT Ecosystem" FontSize="30" FontWeight="Bold" Foreground="{StaticResource InkBrush}"/>
+            <TextBlock Text="Choose an architectural pillar" FontSize="14" Foreground="{StaticResource MutedBrush}" Margin="0,4,0,6"/>
+            <TextBlock x:Name="SummaryText" FontSize="13" Foreground="{StaticResource AccentBrush}" FontWeight="SemiBold" Margin="0,0,0,24"/>
+
+            <UniformGrid Columns="3">
+                <Border Style="{StaticResource Card}" Margin="0,0,10,0">
+                    <StackPanel>
+                        <TextBlock Text="1" FontSize="34" FontWeight="Bold" Foreground="{StaticResource AccentBrush}"/>
+                        <TextBlock Text="Sensor Data Ingestion and Telemetry" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,6"/>
+                        <TextBlock Text="Register devices, attach logs and photos, and watch live telemetry arrive from the fleet."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" MinHeight="64"/>
+                        <Button Content="Open" Style="{StaticResource PrimaryButton}" Click="OpenIngestion_Click" Margin="0,14,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Margin="5,0,5,0">
+                    <StackPanel>
+                        <TextBlock Text="2" FontSize="34" FontWeight="Bold" Foreground="{StaticResource AccentBrush}"/>
+                        <TextBlock Text="Real-Time Command Stream and History" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,6"/>
+                        <TextBlock Text="Live dashboard, manual overrides with undo, device search and predictive suggested actions."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" MinHeight="64"/>
+                        <Button Content="Open" Style="{StaticResource PrimaryButton}" Click="OpenCommands_Click" Margin="0,14,0,0"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Card}" Margin="10,0,0,0" Opacity="0.7">
+                    <StackPanel>
+                        <TextBlock Text="3" FontSize="34" FontWeight="Bold" Foreground="{StaticResource MutedBrush}"/>
+                        <TextBlock Text="Network Topology and Mesh Routing" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,6"/>
+                        <TextBlock Text="Mesh graph, routing paths and spanning tree. Disabled until the final PoE."
+                                   Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" MinHeight="64"/>
+                        <Button Content="Coming in the final PoE" Style="{StaticResource GhostButton}" IsEnabled="False" Margin="0,14,0,0"/>
+                    </StackPanel>
+                </Border>
+            </UniformGrid>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
