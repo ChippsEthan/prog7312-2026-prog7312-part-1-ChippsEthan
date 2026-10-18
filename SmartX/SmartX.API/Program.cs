@@ -16,10 +16,13 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-
 builder.Services.AddSingleton<DeviceRegistry>();
 builder.Services.AddSingleton<HistoryStore>();
 builder.Services.AddSingleton<AlertTracker>();
+builder.Services.AddSingleton<TelemetryQueues>();
+builder.Services.AddSingleton<TelemetryIntake>();
+builder.Services.AddSingleton<CommandService>();
+builder.Services.AddHostedService<TelemetryProcessor>();
 
 var app = builder.Build();
 
@@ -29,11 +32,18 @@ app.UseCors("AllowWpf");
 
 app.Services.GetRequiredService<DeviceRegistry>().SeedDefaults();
 
-var telemetryLog = new List<object>();
-
 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
 Directory.CreateDirectory(uploadsPath);
 
+IResult Respond<T>(IntakeResult result, T packet)
+{
+    if (result.Accepted)
+        return Results.Ok(new { queued = true, priority = result.IsCritical, packet });
+
+    return result.DeviceNotFound
+        ? Results.NotFound(result.Error)
+        : Results.BadRequest(result.Error);
+}
 
 app.MapPost("/api/sensors", (Sensor sensor, DeviceRegistry registry) =>
 {
@@ -55,28 +65,63 @@ app.MapGet("/api/devices/{mac}/history", (string mac, int? count, DeviceRegistry
     return Results.Ok(history.GetLatest(mac, count ?? 100));
 });
 
+app.MapPost("/api/telemetry/float", (TelemetryPacket<float> packet, TelemetryIntake intake) =>
+    Respond(intake.Submit(packet.DeviceId, packet.Value, "float"), packet));
 
-app.MapPost("/api/telemetry/float", (TelemetryPacket<float> packet) =>
+app.MapPost("/api/telemetry/int", (TelemetryPacket<int> packet, TelemetryIntake intake) =>
+    Respond(intake.Submit(packet.DeviceId, packet.Value, "int"), packet));
+
+app.MapPost("/api/telemetry/bool", (TelemetryPacket<bool> packet, TelemetryIntake intake) =>
+    Respond(intake.Submit(packet.DeviceId, packet.Value ? 1.0 : 0.0, "bool"), packet));
+
+app.MapGet("/api/telemetry", () => Results.Ok(TelemetryStore.Snapshot()));
+
+app.MapGet("/api/queues/stats", (TelemetryQueues queues) => Results.Ok(queues.GetStats()));
+
+app.MapPost("/api/queues/delay", (int ms, TelemetryQueues queues) =>
 {
-    telemetryLog.Add(packet);
-    TelemetryStore.AddBatch(new double[] { packet.Value }, packet.DeviceId);
-    return Results.Ok(packet);
+    queues.SimulatedDelayMs = Math.Clamp(ms, 0, 1000);
+    return Results.Ok(new { delayMs = queues.SimulatedDelayMs });
 });
 
-app.MapPost("/api/telemetry/int", (TelemetryPacket<int> packet) =>
+
+app.MapPost("/api/queues/demo-burst", (string mac, int? count, DeviceRegistry registry, TelemetryIntake intake) =>
 {
-    telemetryLog.Add(packet);
-    return Results.Ok(packet);
+    var device = registry.GetByMac(mac);
+    if (device is null) return Results.NotFound($"No device with MAC {mac}");
+
+    double normal, critical;
+    switch (device.Metric)
+    {
+        case "Moisture": normal = 55; critical = 5; break;
+        case "Temperature": normal = 28; critical = 45; break;
+        case "Power": normal = 900; critical = 3200; break;
+        default: return Results.BadRequest("Pick a Moisture, Temperature or Power device.");
+    }
+
+    int n = Math.Clamp(count ?? 50, 1, 500);
+    for (int i = 0; i < n; i++)
+        intake.Submit(device.MacAddress, normal, "float");
+
+    intake.Submit(device.MacAddress, critical, "float");  
+
+    return Results.Ok(new { standardQueued = n, criticalQueued = 1 });
 });
 
-app.MapPost("/api/telemetry/bool", (TelemetryPacket<bool> packet) =>
+app.MapPost("/api/commands", (CommandRequest request, CommandService commands) =>
 {
-    telemetryLog.Add(packet);
-    return Results.Ok(packet);
+    var result = commands.Execute(request.Mac, request.Action);
+    return result.Success ? Results.Ok(result.Command) : Results.BadRequest(result.Error);
 });
 
-app.MapGet("/api/telemetry", () => Results.Ok(telemetryLog));
+app.MapPost("/api/commands/undo", (CommandService commands) =>
+{
+    var result = commands.Undo();
+    return result.Success ? Results.Ok(result.Command) : Results.BadRequest(result.Error);
+});
 
+app.MapGet("/api/commands", (CommandService commands) =>
+    Results.Ok(new { undoDepth = commands.UndoDepth, nextUndo = commands.PeekUndo(), history = commands.GetLog() }));
 
 app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile file, DeviceRegistry registry) =>
 {
@@ -94,7 +139,9 @@ app.MapPost("/api/sensors/{sensorId}/upload", async (string sensorId, IFormFile 
     return Results.Ok(new { path = filePath });
 }).DisableAntiforgery();
 
+
 app.MapGet("/api/alerts", (AlertTracker alerts) => Results.Ok(alerts.GetActive()));
+
 app.MapPost("/api/alerts/test-duplicates", (string mac, DeviceRegistry registry, AlertTracker alerts) =>
 {
     var device = registry.GetByMac(mac);
@@ -113,7 +160,6 @@ app.MapPost("/api/alerts/test-duplicates", (string mac, DeviceRegistry registry,
 
 app.MapDelete("/api/alerts/{mac}", (string mac, AlertTracker alerts) =>
     Results.Ok(new { cleared = alerts.ClearAll(mac) }));
-
 
 app.MapPost("/api/deployment/validate", (DeploymentNode root) =>
 {
