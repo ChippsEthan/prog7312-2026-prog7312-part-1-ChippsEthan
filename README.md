@@ -118,7 +118,7 @@ Github: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan
 
 Youtube Part 1: https://youtu.be/LjB1pL9jP1M
 
-Youtube Part 2: (paste your Part 2 link here)
+Youtube Part 2: (https://youtu.be/rHvzRGxei5s)
 
 
 i declare i used artificial intelligence for help regarding the formatting and styling. 
