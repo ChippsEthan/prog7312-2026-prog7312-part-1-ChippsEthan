@@ -8,7 +8,7 @@ namespace SmartX.WPF;
 
 public partial class MainWindow : Window
 {
-    
+
     private readonly HomeView _home = new();
     private readonly IngestionView _ingestion = new();
     private readonly CommandStreamView _commands = new();
@@ -19,9 +19,54 @@ public partial class MainWindow : Window
 
         _home.NavigateRequested += Navigate;
         AppState.Instance.ConnectionChanged += OnConnectionChanged;
-        AppState.Instance.Start();
+        AuthService.Instance.SignedIn += OnSignedIn;
+        AuthService.Instance.SignedOut += OnSignedOut;
 
         Navigate("Home");
+        ShowLogin();
+    }
+
+    private void OnSignedIn()
+    {
+        UserEmailText.Text = AuthService.Instance.Email ?? "";
+        StatusDot.Fill = Brushes.Gray;
+        StatusLabel.Text = "Connecting to API...";
+
+        var sim = AppState.Instance.Simulator;
+        SimToggle.Content = sim.IsRunning ? "Pause device simulator" : "Resume device simulator";
+
+        Login.Visibility = Visibility.Collapsed;
+        AppShell.Visibility = Visibility.Visible;
+
+        AppState.Instance.Start();
+    }
+
+    private void OnSignedOut(string message)
+    {
+        Navigate("Home");
+        AppState.Instance.Stop();
+        AppState.Instance.Reset();
+        ShowLogin(message);
+    }
+
+    private void ShowLogin(string message = "")
+    {
+        AppShell.Visibility = Visibility.Collapsed;
+        Login.Visibility = Visibility.Visible;
+        Login.Prepare(message);
+    }
+
+    private void SignOut_Click(object sender, RoutedEventArgs e) =>
+        AuthService.Instance.SignOut("You have been signed out.");
+
+    private void CopyToken_Click(object sender, RoutedEventArgs e)
+    {
+        var token = AuthService.Instance.IdToken;
+        if (string.IsNullOrEmpty(token)) return;
+
+        Clipboard.SetText(token);
+        MessageBox.Show("Your API token was copied.\n\nIn Swagger click Authorize and paste it in.\n(It expires after about an hour.)",
+                        "Token copied", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     public void Navigate(string page)

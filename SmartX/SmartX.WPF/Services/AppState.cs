@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net;
+using System.Net.Http;
 using System.Windows.Threading;
 using SmartX.WPF.Models;
 
 namespace SmartX.WPF.Services;
-
 
 public sealed class AppState
 {
@@ -30,6 +31,8 @@ public sealed class AppState
         Simulator = new SimulationService(this);
         _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         _timer.Tick += async (_, _) => await RefreshAsync();
+
+        AuthService.Instance.TokenChanged += token => Api.SetToken(token);
     }
 
     public void Start()
@@ -40,6 +43,23 @@ public sealed class AppState
         _timer.Start();
         _ = RefreshAsync();
         Simulator.Start();
+    }
+
+    public void Stop()
+    {
+        _timer.Stop();
+        Simulator.Stop();
+        _started = false;
+    }
+    public void Reset()
+    {
+        Devices.Clear();
+        _byMac.Clear();
+        AlertFeed.Clear();
+        ActiveAlerts = new List<AlertDto>();
+        ApiOnline = false;
+        _lastOnline = null;
+        Simulator.Reset();
     }
 
     public async Task RefreshAsync()
@@ -60,11 +80,19 @@ public sealed class AppState
                 devices = devicesTask.Result;
                 alerts = alertsTask.Result;
             }
+            catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                AuthService.Instance.SignOut(
+                    "The API rejected your login. Check that Firebase:ProjectId in SmartX.API/appsettings.json matches your Firebase project.");
+                return;
+            }
             catch (Exception)
             {
                 SetOnline(false);
                 return;
             }
+
+            if (!AuthService.Instance.IsSignedIn) return;
 
             ActiveAlerts = alerts;
             MergeDevices(devices, alerts);
@@ -80,7 +108,6 @@ public sealed class AppState
 
     private void MergeDevices(List<SensorDto> dtos, List<AlertDto> alerts)
     {
-        
         var levels = new Dictionary<string, string>();
         foreach (var a in alerts)
         {
@@ -119,7 +146,7 @@ public sealed class AppState
             .Select(a => $"[{a.Level.ToUpperInvariant()}] {a.DeviceName} ({a.Mac}): {a.Message}  -  since {a.RaisedUtc.ToLocalTime():HH:mm:ss}")
             .ToList();
 
-        if (AlertFeed.SequenceEqual(lines)) return;   
+        if (AlertFeed.SequenceEqual(lines)) return; 
 
         AlertFeed.Clear();
         foreach (var line in lines) AlertFeed.Add(line);

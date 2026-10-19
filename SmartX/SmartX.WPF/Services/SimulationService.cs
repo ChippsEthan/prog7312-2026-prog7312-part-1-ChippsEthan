@@ -30,6 +30,10 @@ public class SimulationService
 
     public void Start() => _timer.Start();
 
+    public void Stop() => _timer.Stop();
+
+    public void Reset() => _sims.Clear();
+
     private void Tick()
     {
         if (!IsRunning || !_state.ApiOnline) return;

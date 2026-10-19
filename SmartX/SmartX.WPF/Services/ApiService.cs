@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using SmartX.WPF.Models;
+using System.Net.Http.Headers;
 
 namespace SmartX.WPF.Services;
 
@@ -20,7 +21,12 @@ public class ApiService
         };
     }
 
-    
+    public void SetToken(string? token)
+    {
+        _client.DefaultRequestHeaders.Authorization = string.IsNullOrEmpty(token)
+            ? null
+            : new AuthenticationHeaderValue("Bearer", token);
+    }
     public Task<HttpResponseMessage> RegisterSensorAsync(object sensor) =>
         _client.PostAsJsonAsync("/api/sensors", sensor);
 
