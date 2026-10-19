@@ -94,6 +94,24 @@ Test the prediction engine:
 - HashSet: unique active alerts so duplicates are ignored (AlertTracker).
 - Dictionary of transition counts with a PriorityQueue for ranking: the suggestion engine (PredictionEngine).
 
+### Login (Firebase)
+
+The app needs a login. Authentication is done with Firebase Authentication (email and password). The WPF app signs in with Firebase, gets a token, and sends it to the API with every request. The API checks the token with Google's public keys.
+
+To set it up with your own Firebase project:
+
+1. Go to https://console.firebase.google.com and create a project.
+2. Build > Authentication > Get started > Sign-in method > turn on Email/Password.
+3. Project settings > General and copy the Project ID and the Web API Key.
+4. Paste the Project ID into `SmartX/SmartX.API/appsettings.json` (Firebase > ProjectId).
+5. Paste the Web API Key into `SmartX/SmartX.WPF/Services/FirebaseConfig.cs`.
+
+You can use the test account below or click "Create account" on the login screen:
+
+- Email: (put your test email here)
+- Password: (put your test password here)
+
+
 ### Links
 
 Github: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan.git
