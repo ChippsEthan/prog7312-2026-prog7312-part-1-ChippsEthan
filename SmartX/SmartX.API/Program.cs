@@ -59,6 +59,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<DeviceRegistry>();
 builder.Services.AddSingleton<HistoryStore>();
+builder.Services.AddSingleton<TelemetryTimeIndex>();
+builder.Services.AddSingleton<MeshTopology>();
 builder.Services.AddSingleton<AlertTracker>();
 builder.Services.AddSingleton<TelemetryQueues>();
 builder.Services.AddSingleton<TelemetryIntake>();
@@ -75,6 +77,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.Services.GetRequiredService<DeviceRegistry>().SeedDefaults();
+app.Services.GetRequiredService<MeshTopology>().SeedDefaults();
 app.Services.GetRequiredService<PredictionEngine>().SeedHistoricalPatterns();
 
 var uploadsPath = Path.Combine(Directory.GetCurrentDirectory(), "uploads");
@@ -126,6 +129,18 @@ api.MapGet("/devices/{mac}/history", (string mac, int? count, DeviceRegistry reg
     if (!registry.Exists(mac)) return Results.NotFound($"No device with MAC {mac}");
     return Results.Ok(history.GetLatest(mac, count ?? 100));
 });
+api.MapGet("/devices/{mac}/range", (string mac, DateTime start, DateTime end, DeviceRegistry registry, TelemetryTimeIndex index) =>
+{
+    if (!registry.Exists(mac)) return Results.NotFound($"No device with MAC {mac}");
+    if (end < start) return Results.BadRequest("'end' must not be earlier than 'start'.");
+
+    return Results.Ok(index.Query(mac, start.ToUniversalTime(), end.ToUniversalTime()));
+});
+
+api.MapGet("/devices/{mac}/tree-stats", (string mac, DeviceRegistry registry, TelemetryTimeIndex index) =>
+    registry.Exists(mac)
+        ? Results.Ok(index.GetStats(mac))
+        : Results.NotFound($"No device with MAC {mac}"));
 
 api.MapGet("/telemetry", () => Results.Ok(TelemetryStore.Snapshot()));
 
@@ -256,5 +271,29 @@ api.MapPost("/deployment/validate", (DeploymentNode root) =>
     bool isValid = DeploymentNode.ValidateTree(root);
     return Results.Ok(new { valid = isValid });
 });
+
+api.MapGet("/mesh", (MeshTopology mesh) => Results.Ok(mesh.GetSnapshot()));
+
+api.MapGet("/mesh/route/{mac}", (string mac, MeshTopology mesh) =>
+    mesh.GetRoute(mac) is { } route
+        ? Results.Ok(route)
+        : Results.NotFound($"No device with MAC {mac}"));
+
+api.MapGet("/mesh/traverse", (string? start, string? mode, MeshTopology mesh) =>
+{
+    bool dfs = string.Equals(mode, "dfs", StringComparison.OrdinalIgnoreCase);
+    var steps = mesh.Traverse(start, dfs);
+    return Results.Ok(new { mode = dfs ? "DFS" : "BFS", visited = steps.Count, steps });
+});
+
+api.MapPost("/mesh/nodes/{mac}/fail", (string mac, MeshTopology mesh) =>
+    mesh.SetForcedDown(mac, true)
+        ? Results.Ok(new { mac, down = true })
+        : Results.NotFound($"No device with MAC {mac}"));
+
+api.MapPost("/mesh/nodes/{mac}/restore", (string mac, MeshTopology mesh) =>
+    mesh.SetForcedDown(mac, false)
+        ? Results.Ok(new { mac, down = false })
+        : Results.NotFound($"No device with MAC {mac}"));
 
 app.Run();
