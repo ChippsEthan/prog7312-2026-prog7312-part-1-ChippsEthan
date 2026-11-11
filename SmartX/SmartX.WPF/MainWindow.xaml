@@ -84,8 +84,7 @@
                         <TextBlock Text="Signed in as" FontSize="11" Foreground="#94A3B8"/>
                         <TextBlock x:Name="UserEmailText" Foreground="White" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,8"/>
                         <Button Content="Sign out" Style="{StaticResource GhostButton}" Click="SignOut_Click" Margin="0,0,0,8"/>
-                        <Button Content="Copy API token (for Swagger)" Style="{StaticResource GhostButton}"
-                                Click="CopyToken_Click" Margin="0,0,0,16"/>
+                        
 
                         <Button x:Name="SimToggle" Content="Pause device simulator" Style="{StaticResource GhostButton}"
                                 Click="SimToggle_Click" Margin="0,0,0,14"/>
