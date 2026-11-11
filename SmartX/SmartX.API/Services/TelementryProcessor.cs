@@ -10,6 +10,7 @@ public class TelemetryProcessor : BackgroundService
     private readonly TelemetryQueues _queues;
     private readonly DeviceRegistry _registry;
     private readonly HistoryStore _history;
+    private readonly TelemetryTimeIndex _timeIndex;
     private readonly AlertTracker _alerts;
     private readonly PredictionEngine _prediction;
     private readonly ILogger<TelemetryProcessor> _logger;
@@ -18,6 +19,7 @@ public class TelemetryProcessor : BackgroundService
         TelemetryQueues queues,
         DeviceRegistry registry,
         HistoryStore history,
+        TelemetryTimeIndex timeIndex,
         AlertTracker alerts,
         PredictionEngine prediction,
         ILogger<TelemetryProcessor> logger)
@@ -25,6 +27,7 @@ public class TelemetryProcessor : BackgroundService
         _queues = queues;
         _registry = registry;
         _history = history;
+        _timeIndex = timeIndex;
         _alerts = alerts;
         _prediction = prediction;
         _logger = logger;
@@ -85,6 +88,7 @@ public class TelemetryProcessor : BackgroundService
         if (updated is null) return;
 
         _history.Add(new TelemetryReading(updated.MacAddress, packet.Timestamp, packet.Value, packet.SensorType));
+        _timeIndex.Add(new TelemetryReading(updated.MacAddress, packet.Timestamp, packet.Value, packet.SensorType));
 
 
         TelemetryStore.AddBatch(new[] { packet.Value }, updated.MacAddress, packet.SensorType);
