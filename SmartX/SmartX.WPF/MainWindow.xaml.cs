@@ -12,6 +12,7 @@ public partial class MainWindow : Window
     private readonly HomeView _home = new();
     private readonly IngestionView _ingestion = new();
     private readonly CommandStreamView _commands = new();
+    private readonly TopologyView _topology = new();
 
     public MainWindow()
     {
@@ -78,6 +79,10 @@ public partial class MainWindow : Window
                 NavIngestion.IsChecked = true;
                 break;
             case "Commands":
+            case "Topology":
+                PageHost.Content = _topology;
+                NavTopology.IsChecked = true;
+                break;
                 PageHost.Content = _commands;
                 NavCommands.IsChecked = true;
                 break;

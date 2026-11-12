@@ -28,13 +28,13 @@
                     </StackPanel>
                 </Border>
 
-                <Border Style="{StaticResource Card}" Margin="10,0,0,0" Opacity="0.7">
+                <Border Style="{StaticResource Card}" Margin="10,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="3" FontSize="34" FontWeight="Bold" Foreground="{StaticResource MutedBrush}"/>
+                        <TextBlock Text="3" FontSize="34" FontWeight="Bold" Foreground="{StaticResource AccentBrush}"/>
                         <TextBlock Text="Network Topology and Mesh Routing" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,6,0,6"/>
-                        <TextBlock Text="Mesh graph, routing paths and spanning tree. Disabled until the final PoE."
+                        <TextBlock Text="Live mesh map, node route tracking, BFS/DFS traversal, spanning tree routing and a time-range telemetry log."
                                    Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" MinHeight="64"/>
-                        <Button Content="Coming in the final PoE" Style="{StaticResource GhostButton}" IsEnabled="False" Margin="0,14,0,0"/>
+                        <Button Content="Open" Style="{StaticResource PrimaryButton}" Click="OpenTopology_Click" Margin="0,14,0,0"/>
                     </StackPanel>
                 </Border>
             </UniformGrid>

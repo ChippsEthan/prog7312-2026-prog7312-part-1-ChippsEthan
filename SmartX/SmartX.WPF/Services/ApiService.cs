@@ -98,6 +98,34 @@ public class ApiService
         var response = await _client.PostAsync($"/api/queues/demo-burst?mac={Uri.EscapeDataString(mac)}&count={count}", null);
         return await ToResultAsync(response, "Burst sent");
     }
+    public async Task<MeshSnapshotDto> GetMeshAsync() =>
+    await _client.GetFromJsonAsync<MeshSnapshotDto>("/api/mesh", Json) ?? new();
+
+    public async Task<MeshRouteDto?> GetRouteAsync(string id) =>
+        await _client.GetFromJsonAsync<MeshRouteDto>($"/api/mesh/route/{id}", Json);
+
+    public async Task<TraverseResultDto> TraverseAsync(string start, string mode) =>
+        await _client.GetFromJsonAsync<TraverseResultDto>(
+            $"/api/mesh/traverse?start={Uri.EscapeDataString(start)}&mode={mode}", Json) ?? new();
+
+    public async Task<ApiResult> FailNodeAsync(string mac)
+    {
+        var response = await _client.PostAsync($"/api/mesh/nodes/{mac}/fail", null);
+        return await ToResultAsync(response, "Node marked as failed");
+    }
+
+    public async Task<ApiResult> RestoreNodeAsync(string mac)
+    {
+        var response = await _client.PostAsync($"/api/mesh/nodes/{mac}/restore", null);
+        return await ToResultAsync(response, "Node restored");
+    }
+
+    public async Task<TimeRangeDto> GetRangeAsync(string mac, DateTime startUtc, DateTime endUtc)
+    {
+        var s = Uri.EscapeDataString(startUtc.ToString("o"));
+        var e = Uri.EscapeDataString(endUtc.ToString("o"));
+        return await _client.GetFromJsonAsync<TimeRangeDto>($"/api/devices/{mac}/range?start={s}&end={e}", Json) ?? new();
+    }
 
     private static async Task<ApiResult> ToResultAsync(HttpResponseMessage response, string okFallback = "OK")
     {

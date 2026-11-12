@@ -32,4 +32,5 @@ public partial class HomeView : UserControl
     private void OpenIngestion_Click(object sender, RoutedEventArgs e) => NavigateRequested?.Invoke("Ingestion");
 
     private void OpenCommands_Click(object sender, RoutedEventArgs e) => NavigateRequested?.Invoke("Commands");
+    private void OpenTopology_Click(object sender, RoutedEventArgs e) => NavigateRequested?.Invoke("Topology");
 }

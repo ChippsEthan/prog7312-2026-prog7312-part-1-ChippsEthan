@@ -72,10 +72,10 @@
                         </RadioButton>
 
                         <RadioButton x:Name="NavTopology" Style="{StaticResource NavButton}" GroupName="Nav"
-                                     Tag="Topology" Click="Nav_Click" IsEnabled="False">
+                                     Tag="Topology" Click="Nav_Click">
                             <StackPanel>
                                 <TextBlock Text="3. Network Topology and Mesh Routing" FontWeight="SemiBold" TextWrapping="Wrap"/>
-                                <TextBlock Text="Coming in the final PoE" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
+                                <TextBlock Text="Active" FontSize="11" Foreground="#86EFAC" Margin="0,2,0,0"/>
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>
