@@ -212,6 +212,6 @@ You can use the test account below or click "Create account" on the login screen
 
 Github: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan.git
 
-Youtube Part 3: 
+Youtube Part 3: https://youtu.be/AOQ9ce_7Bt0   
 
 Youtube Part 1: https://youtu.be/LjB1pL9jP1M
