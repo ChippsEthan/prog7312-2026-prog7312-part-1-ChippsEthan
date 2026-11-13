@@ -100,9 +100,20 @@ public partial class IngestionView : UserControl
             try
             {
                 var upload = await _state.Api.UploadFileAsync(newSensorId, _pendingFilePath);
-                StatusText.Text = upload.IsSuccessStatusCode
-                    ? "Sensor registered and file uploaded."
-                    : "Sensor registered, but the file upload failed.";
+
+                if (upload.IsSuccessStatusCode)
+                {
+                    using var uploadDoc = JsonDocument.Parse(await upload.Content.ReadAsStringAsync());
+                    int imported = uploadDoc.RootElement.TryGetProperty("imported", out var imp) ? imp.GetInt32() : 0;
+
+                    StatusText.Text = imported > 0
+                        ? $"Sensor registered. {imported} readings were imported from the file into the live data."
+                        : "Sensor registered and file attached.";
+                }
+                else
+                {
+                    StatusText.Text = "Sensor registered, but the file upload failed.";
+                }
             }
             catch (Exception)
             {

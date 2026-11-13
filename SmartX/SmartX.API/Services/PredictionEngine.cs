@@ -195,7 +195,7 @@ public class PredictionEngine
                 }
             }
         }
-
+        AddBuiltInRules(bag, activeAlerts, byMac);
         var ranking = new PriorityQueue<Suggestion, double>();
         foreach (var s in bag.Values)
             ranking.Enqueue(s, -s.Confidence);
@@ -232,6 +232,7 @@ public class PredictionEngine
 
             var trend = AnalyseTrend(d);
             if (trend is not null) insights.Add(trend);
+            else if (CheckNearLimit(d) is { } near) insights.Add(near);
         }
 
         insights = insights
@@ -294,7 +295,87 @@ public class PredictionEngine
             device.MacAddress,
             null);
     }
+    
+    private static Suggestion? CheckNearLimit(Sensor device)
+    {
+        if (device.LastValue is not { } value) return null;
+        if (ThresholdPolicy.Evaluate(device, value).Level == AlertLevel.Critical) return null;
 
+        double margin = ThresholdPolicy.NearLimitMargin(device.Metric);
+        if (margin <= 0) return null;
+
+        var (low, high) = ThresholdPolicy.CriticalLimits(device.Metric);
+
+        double distance;
+        double limit;
+        string side;
+
+        if (low is { } lo && value - lo <= margin)
+        {
+            distance = value - lo;
+            limit = lo;
+            side = "low";
+        }
+        else if (high is { } hi && hi - value <= margin)
+        {
+            distance = hi - value;
+            limit = hi;
+            side = "high";
+        }
+        else
+        {
+            return null;
+        }
+
+        double confidence = Math.Clamp(1.0 - distance / margin, 0.5, 1.0);
+
+        return new Suggestion(
+            $"near|{device.MacAddress}",
+            "NearLimit",
+            $"{device.Name} is close to its critical {side} limit",
+            $"Reading {value:0.#}{device.Unit} is only {Math.Max(distance, 0):0.#}{device.Unit} from the {limit:0.#}{device.Unit} limit. Act before it goes critical.",
+            confidence,
+            "warning",
+            device.MacAddress,
+            null);
+    }
+
+    private static void AddBuiltInRules(
+        Dictionary<string, Suggestion> bag, IEnumerable<ActiveAlert> alerts, Dictionary<string, Sensor> byMac)
+    {
+        const string why = "Built-in safety rule (shown immediately, before any pattern has been learned)";
+
+        foreach (var alert in alerts)
+        {
+            if (alert.Type != AlertTypes.OutOfRange) continue;
+            if (!byMac.TryGetValue(alert.Mac, out var device)) continue;
+
+            if (device.Metric == "Moisture" && alert.Message.Contains("low", StringComparison.OrdinalIgnoreCase))
+            {
+                var pump = byMac.Values.FirstOrDefault(d =>
+                    d.Category == SensorCategory.Actuator &&
+                    d.Name.Contains("Pump", StringComparison.OrdinalIgnoreCase));
+
+                if (pump is not null)
+                    AddCommandSuggestion(bag,
+                        new PatternEvent(PatternKind.Command, pump.MacAddress, nameof(CommandAction.TurnOn)),
+                        0.6, why, byMac);
+            }
+            else if (device.Metric == "Power" &&
+                     (alert.Message.Contains("spike", StringComparison.OrdinalIgnoreCase) ||
+                      alert.Message.Contains("high", StringComparison.OrdinalIgnoreCase)))
+            {
+                var relay = byMac.Values.FirstOrDefault(d =>
+                    d.Category == SensorCategory.Actuator &&
+                    d.Name.Contains("Relay", StringComparison.OrdinalIgnoreCase));
+
+                if (relay is not null)
+                    AddCommandSuggestion(bag,
+                        new PatternEvent(PatternKind.Command, relay.MacAddress, nameof(CommandAction.TurnOff)),
+                        0.6, why, byMac);
+            }
+        }
+    }
     private (List<(PatternEvent Next, int Count)> Items, int Total) GetOutgoing(PatternEvent from)
     {
         lock (_lock)

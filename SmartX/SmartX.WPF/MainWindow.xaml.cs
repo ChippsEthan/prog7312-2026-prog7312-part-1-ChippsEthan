@@ -3,6 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using SmartX.WPF.Services;
 using SmartX.WPF.Views;
+using System.Net;
+using System.Net.Http;
+using SmartX.WPF.Models;
 
 namespace SmartX.WPF;
 
@@ -27,9 +30,28 @@ public partial class MainWindow : Window
         ShowLogin();
     }
 
-    private void OnSignedIn()
+    private async void OnSignedIn()
     {
-        UserEmailText.Text = AuthService.Instance.Email ?? "";
+        MeDto? me = null;
+        try
+        {
+            me = await AppState.Instance.Api.GetMeAsync();
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            AuthService.Instance.SignOut(
+                "The API rejected your login. Check that Firebase:ProjectId in SmartX.API/appsettings.json matches your Firebase project.");
+            return;
+        }
+        catch (Exception)
+        {
+            AuthService.Instance.SignOut("Cannot reach the API. Start SmartX.API, then sign in again.");
+            return;
+        }
+
+        if (!AuthService.Instance.IsSignedIn) return;
+
+        UserEmailText.Text = $"{me?.Email ?? AuthService.Instance.Email}\n(verified by the API)";
         StatusDot.Fill = Brushes.Gray;
         StatusLabel.Text = "Connecting to API...";
 

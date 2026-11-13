@@ -228,9 +228,10 @@ api.MapPost("/insights/demo-trend", async (string mac, DeviceRegistry registry, 
 });
 
 
-api.MapPost("/sensors/{sensorId}/upload", async (string sensorId, IFormFile file, DeviceRegistry registry) =>
+api.MapPost("/sensors/{sensorId}/upload", async (string sensorId, IFormFile file, DeviceRegistry registry, TelemetryIntake intake) =>
 {
-    if (registry.GetById(sensorId) is null)
+    var device = registry.GetById(sensorId);
+    if (device is null)
         return Results.NotFound("Sensor not found");
 
     var safeName = Path.GetFileName(file.FileName);
@@ -241,7 +242,12 @@ api.MapPost("/sensors/{sensorId}/upload", async (string sensorId, IFormFile file
     }
 
     registry.AddAttachment(sensorId, filePath);
-    return Results.Ok(new { path = filePath });
+
+    if (!TelemetryFileImporter.IsImportable(safeName))
+        return Results.Ok(new { path = filePath, imported = 0, skipped = 0, message = "File attached. Only .csv and .txt files are read as telemetry." });
+
+    var result = TelemetryFileImporter.Import(filePath, device, intake);
+    return Results.Ok(new { path = filePath, imported = result.Imported, skipped = result.Skipped, message = result.Message });
 }).DisableAntiforgery();
 
 

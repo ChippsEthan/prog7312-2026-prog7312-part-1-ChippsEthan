@@ -43,4 +43,22 @@ public static class ThresholdPolicy
             _ => Ok   
         };
     }
+    public static (double? Low, double? High) CriticalLimits(string metric)
+    {
+        switch (metric)
+        {
+            case "Temperature": return (15.0, 40.0);
+            case "Moisture": return (20.0, null);
+            case "Power": return (null, 2500.0);
+            default: return (null, null);
+        }
+    }
+
+    public static double NearLimitMargin(string metric) => metric switch
+    {
+        "Temperature" => 4.0,
+        "Moisture" => 6.0,
+        "Power" => 300.0,
+        _ => 0.0
+    };
 }

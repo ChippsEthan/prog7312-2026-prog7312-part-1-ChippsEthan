@@ -98,6 +98,8 @@ public class ApiService
         var response = await _client.PostAsync($"/api/queues/demo-burst?mac={Uri.EscapeDataString(mac)}&count={count}", null);
         return await ToResultAsync(response, "Burst sent");
     }
+    public async Task<MeDto?> GetMeAsync() =>
+    await _client.GetFromJsonAsync<MeDto>("/api/me", Json);
     public async Task<MeshSnapshotDto> GetMeshAsync() =>
     await _client.GetFromJsonAsync<MeshSnapshotDto>("/api/mesh", Json) ?? new();
 

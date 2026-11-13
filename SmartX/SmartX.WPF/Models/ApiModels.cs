@@ -111,3 +111,8 @@ public class ReadingDto
     public double Value { get; set; }
     public string SensorType { get; set; } = "";
 }
+public class MeDto
+{
+    public string? Email { get; set; }
+    public string? Uid { get; set; }
+}

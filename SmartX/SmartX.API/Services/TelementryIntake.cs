@@ -15,7 +15,7 @@ public class TelemetryIntake
         _queues = queues;
     }
 
-    public IntakeResult Submit(string deviceId, double value, string sensorType)
+    public IntakeResult Submit(string deviceId, double value, string sensorType, DateTime? timestamp = null)
     {
         if (!DeviceRegistry.IsValidMac(deviceId))
             return new IntakeResult(false, "DeviceId must be a valid MAC address (AA:BB:CC:DD:EE:FF).", false);
@@ -26,7 +26,7 @@ public class TelemetryIntake
 
         bool critical = ThresholdPolicy.Evaluate(device, value).Level == AlertLevel.Critical;
 
-        _queues.Enqueue(new QueuedPacket(device.MacAddress, DateTime.UtcNow, value, sensorType, critical));
+        _queues.Enqueue(new QueuedPacket(device.MacAddress, timestamp ?? DateTime.UtcNow, value, sensorType, critical));
         return new IntakeResult(true, null, critical);
     }
 }
