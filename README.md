@@ -2,7 +2,8 @@
 
 ## SmartX Part3
 
-Youtube link: Github Link: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan 
+Youtube link:https://youtu.be/AOQ9ce_7Bt0   
+Github Link: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan 
 ### Requirements
 
 - .Net SDK 10.0
