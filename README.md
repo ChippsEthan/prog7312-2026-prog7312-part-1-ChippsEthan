@@ -213,6 +213,12 @@ You can use the test account below or click "Create account" on the login screen
 
 Github: https://github.com/ChippsEthan/prog7312-2026-prog7312-part-1-ChippsEthan.git
 
-Youtube Part 3: https://youtu.be/AOQ9ce_7Bt0   
+Youtube Part 3: https://youtu.be/AOQ9ce_7Bt0  
+
+## Declaration 
+
+AI assistance was used to help investigate a Git version control issue that prevented code from being pushed correctly to the repository. The suggested steps helped the team identify the cause of the problem and resolve the Git workflow issue.
+AI was also used to help with the formating and styling of the read me and other documents.
+
 
 Youtube Part 1: https://youtu.be/LjB1pL9jP1M
